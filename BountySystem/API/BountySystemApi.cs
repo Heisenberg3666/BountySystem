@@ -1,6 +1,5 @@
 ﻿using BountySystem.API.Entities;
 using Exiled.API.Features;
-using MEC;
 using System.Collections.Generic;
 using Transactions.API;
 
@@ -13,7 +12,7 @@ namespace BountySystem.API
         public static List<Bounty> Bounties = new List<Bounty>();
 
         /// <summary>
-        /// Adds a bounty to the list and removes points from the issuer.
+        /// Adds a bounty to the list and removes Money from the issuer.
         /// </summary>
         /// <param name="newBounty"></param>
         public static void CreateBounty(Bounty newBounty)
@@ -24,12 +23,12 @@ namespace BountySystem.API
             string creationMessage = BountySystem.Instance.Config.BountyMessages.Creation
                 .Replace("%issuer%", issuer.Nickname)
                 .Replace("%target%", target.Nickname)
-                .Replace("%points%", TransactionsApi.FormatPoints(newBounty.Reward))
+                .Replace("%money%", TransactionsApi.FormatMoney(newBounty.Reward))
                 .Replace("%reason%", newBounty.Reason);
 
             Map.Broadcast(_duration, creationMessage);
 
-            TransactionsApi.RemovePoints(issuer, newBounty.Reward);
+            TransactionsApi.RemoveMoney(issuer, newBounty.Reward);
 
             Bounties.Add(newBounty);
 
@@ -37,7 +36,7 @@ namespace BountySystem.API
         }
 
         /// <summary>
-        /// Removes the bounty from the list and refunds the issuer their points.
+        /// Removes the bounty from the list and refunds the issuer their money.
         /// </summary>
         /// <param name="bounty"></param>
         public static void CancelBounty(Bounty bounty)
@@ -48,12 +47,12 @@ namespace BountySystem.API
             string cancellationMessage = BountySystem.Instance.Config.BountyMessages.Cancellation
                 .Replace("%issuer%", issuer.Nickname)
                 .Replace("%target%", target.Nickname)
-                .Replace("%points%", TransactionsApi.FormatPoints(bounty.Reward))
+                .Replace("%money%", TransactionsApi.FormatMoney(bounty.Reward))
                 .Replace("%reason%", bounty.Reason);
 
             Map.Broadcast(_duration, cancellationMessage);
 
-            TransactionsApi.AddPoints(issuer, bounty.Reward);
+            TransactionsApi.AddMoney(issuer, bounty.Reward);
 
             Bounties.Remove(bounty);
 
@@ -74,26 +73,26 @@ namespace BountySystem.API
                 .Replace("%issuer%", issuer.Nickname)
                 .Replace("%target%", target.Nickname)
                 .Replace("%killer%", killer.Nickname)
-                .Replace("%points%", TransactionsApi.FormatPoints(bounty.Reward))
+                .Replace("%money%", TransactionsApi.FormatMoney(bounty.Reward))
                 .Replace("%reason%", bounty.Reason);
 
             string rewardMessage = BountySystem.Instance.Config.BountyMessages.Collection
                 .Replace("%issuer%", issuer.Nickname)
                 .Replace("%target%", target.Nickname)
                 .Replace("%killer%", killer.Nickname)
-                .Replace("%points%", TransactionsApi.FormatPoints(bounty.Reward))
+                .Replace("%money%", TransactionsApi.FormatMoney(bounty.Reward))
                 .Replace("%reason%", bounty.Reason);
 
             Map.Broadcast(_duration, completionMessage);
             killer.ShowHint(rewardMessage, _duration);
 
-            TransactionsApi.AddPoints(killer, bounty.Reward);
+            TransactionsApi.AddMoney(killer, bounty.Reward);
 
             Bounties.Remove(bounty);
         }
 
         /// <summary>
-        /// Removes the bounty from the list, marks it as failed and refunds the issuer their points.
+        /// Removes the bounty from the list, marks it as failed and refunds the issuer their money.
         /// </summary>
         /// <param name="bounty"></param>
         public static void FailBounty(Bounty bounty)
@@ -104,12 +103,12 @@ namespace BountySystem.API
             string failureMessage = BountySystem.Instance.Config.BountyMessages.Failure
                 .Replace("%issuer%", issuer.Nickname)
                 .Replace("%target%", target.Nickname)
-                .Replace("%points%", TransactionsApi.FormatPoints(bounty.Reward))
+                .Replace("%money%", TransactionsApi.FormatMoney(bounty.Reward))
                 .Replace("%reason%", bounty.Reason);
 
             Map.Broadcast(_duration, failureMessage);
 
-            TransactionsApi.AddPoints(issuer, bounty.Reward);
+            TransactionsApi.AddMoney(issuer, bounty.Reward);
 
             Bounties.Remove(bounty);
         }

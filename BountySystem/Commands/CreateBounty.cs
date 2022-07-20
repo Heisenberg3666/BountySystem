@@ -15,7 +15,7 @@ namespace BountySystem.Commands
         public string Command { get; } = nameof(CreateBounty).ToLower();
         public string[] Aliases { get; } = new string[] { "cb" };
         public string Description { get; } = "Use this command to place a bounty on players.";
-        public string[] Usage { get; } = new string[] { "Name", "Points", "Reason" };
+        public string[] Usage { get; } = new string[] { "Name", "Money", "Reason" };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -59,16 +59,16 @@ namespace BountySystem.Commands
                 Reason = reason
             };
 
-            int currentBalance = TransactionsApi.GetPoints(issuer);
+            int currentBalance = TransactionsApi.GetMoney(issuer);
 
             if (reward < 1 || currentBalance < reward)
             {
-                response = "You cannot make a bounty with that many points.";
+                response = "You cannot make a bounty with that much money.";
                 return false;
             }
 
             BountySystemApi.CreateBounty(bounty);
-            player.ShowHint($"<color=red>-{TransactionsApi.FormatPoints(reward)}</color>", 10);
+            player.ShowHint($"<color=red>-{TransactionsApi.FormatMoney(reward)}</color>", 10);
 
             response = $"You have sucessfully placed a bounty on {player.Nickname}";
             return true;

@@ -37,7 +37,7 @@ namespace BountySystem.Commands
                     Player issuer = Player.Get(bounty.IssuerId);
                     Player target = Player.Get(bounty.TargetId);
 
-                    response += $"\n{issuer.Nickname}   {target.Nickname}   {TransactionsApi.FormatPoints(bounty.Reward)}   {bounty.Reason}";
+                    response += $"\n{issuer.Nickname}   {target.Nickname}   {TransactionsApi.FormatMoney(bounty.Reward)}   {bounty.Reason}";
                 }
 
                 response += "</color>";

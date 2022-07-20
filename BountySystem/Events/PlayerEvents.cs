@@ -32,12 +32,12 @@ namespace BountySystem.Events
                 if (e.Killer != null && !e.Killer.DoNotTrack)
                 {
                     BountySystemApi.CompleteBounty(bounty, e.Killer);
-                    e.Killer.ShowHint($"<color=green>+{TransactionsApi.FormatPoints(bounty.Reward)}</color>", 10);
+                    e.Killer.ShowHint($"<color=green>+{TransactionsApi.FormatMoney(bounty.Reward)}</color>", 10);
                 }
                 else
                 {
                     BountySystemApi.FailBounty(bounty);
-                    Player.Get(bounty.IssuerId).ShowHint($"<color=green>+{TransactionsApi.FormatPoints(bounty.Reward)}</color>", 10);
+                    Player.Get(bounty.IssuerId).ShowHint($"<color=green>+{TransactionsApi.FormatMoney(bounty.Reward)}</color>", 10);
                 }
             }
 
@@ -46,7 +46,7 @@ namespace BountySystem.Events
                 foreach (Bounty issuedBounty in issuedBounties)
                 {
                     BountySystemApi.CancelBounty(bounty);
-                    Player.Get(bounty.IssuerId).ShowHint($"<color=green>+{TransactionsApi.FormatPoints(bounty.Reward)}</color>", 10);
+                    Player.Get(bounty.IssuerId).ShowHint($"<color=green>+{TransactionsApi.FormatMoney(bounty.Reward)}</color>", 10);
                 }
             }
         }
@@ -61,7 +61,7 @@ namespace BountySystem.Events
                 foreach (Bounty bounty in bounties)
                 {
                     BountySystemApi.FailBounty(bounty);
-                    Player.Get(bounty.IssuerId).ShowHint($"<color=green>+{TransactionsApi.FormatPoints(bounty.Reward)}</color>", 10);
+                    Player.Get(bounty.IssuerId).ShowHint($"<color=green>+{TransactionsApi.FormatMoney(bounty.Reward)}</color>", 10);
                 }
             }
 
@@ -70,7 +70,7 @@ namespace BountySystem.Events
                 foreach (Bounty issuedBounty in issuedBounties)
                 {
                     BountySystemApi.CancelBounty(issuedBounty);
-                    Player.Get(issuedBounty.IssuerId).ShowHint($"<color=green>+{TransactionsApi.FormatPoints(issuedBounty.Reward)}</color>", 10);
+                    Player.Get(issuedBounty.IssuerId).ShowHint($"<color=green>+{TransactionsApi.FormatMoney(issuedBounty.Reward)}</color>", 10);
                 }
             }
         }
