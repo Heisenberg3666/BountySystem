@@ -51,6 +51,9 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0ConsentManager">
+      <HintPath>..\..\..\..\Downloads\0ConsentManager.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\..\..\..\Downloads\Master\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>

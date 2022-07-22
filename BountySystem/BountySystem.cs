@@ -1,6 +1,8 @@
 ﻿using BountySystem.Commands;
 using BountySystem.Config;
 using BountySystem.Events;
+using ConsentManager.API;
+using ConsentManager.API.Entities;
 using Exiled.API.Features;
 using MEC;
 using System;
@@ -16,6 +18,7 @@ namespace BountySystem
         private ServerEvents _serverEvents;
         private List<IUsageCommand> _commands;
         private CoroutineHandle _commandChecker;
+        private Guid _apiKey;
 
         public static BountySystem Instance;
 
@@ -51,11 +54,23 @@ namespace BountySystem
                 }
             });
 
+            _apiKey = PluginRegistration.Register(new PluginUsage()
+            {
+                Name = Name,
+                Version = Version,
+                DataUsage = "BountySystem will use player's data to allow the player to place/collect a bounty.",
+                WhoCanSeeData = "Players in the server will be able to see if you have placed a bounty and how much it is, " +
+                "players may also see that information when the bounty has been collected."
+            });
+
             base.OnEnabled();
         }
 
         public override void OnDisabled()
         {
+            PluginRegistration.Unregister(_apiKey);
+            _apiKey = Guid.Empty;
+
             TransactionsApi.UnregisterSubcommand(_commands[0]);
             TransactionsApi.UnregisterSubcommand(_commands[1]);
             TransactionsApi.UnregisterSubcommand(_commands[2]);
