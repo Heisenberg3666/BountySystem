@@ -12,10 +12,10 @@ namespace BountySystem.Commands
 {
     internal class CancelBounty : IUsageCommand
     {
-        public string Command => nameof(CancelBounty).ToLower();
-        public string[] Aliases => new string[] { "cancel" };
-        public string Description => "This command can be used to cancel any bounty that you have made.";
-        public string[] Usage => new string[] { "Player" };
+        public string Command { get; } = nameof(CancelBounty).ToLower();
+        public string[] Aliases { get; } = new string[] { "cancel" };
+        public string Description { get; } = "This command can be used to cancel any bounty that you have made.";
+        public string[] Usage { get; } = new string[] { "Player" };
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {

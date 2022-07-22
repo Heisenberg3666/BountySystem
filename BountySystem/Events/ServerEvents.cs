@@ -19,11 +19,8 @@ namespace BountySystem.Events
 
         private void OnRoundEnded(EndingRoundEventArgs e)
         {
-            if (BountySystemApi.Bounties.Count > 0)
-            {
-                foreach (Bounty bounty in BountySystemApi.Bounties)
-                    BountySystemApi.FailBounty(bounty);
-            }
+            foreach (Bounty bounty in BountySystemApi.Bounties)
+                BountySystemApi.FailBounty(bounty);
         }
     }
 }

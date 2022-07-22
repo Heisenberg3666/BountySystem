@@ -19,10 +19,10 @@ namespace BountySystem
 
         public static BountySystem Instance;
 
-        public override string Name => "BountySystem";
-        public override string Author => "Heisenberg3666";
-        public override Version Version => new Version(1, 0, 0, 0);
-        public override Version RequiredExiledVersion => new Version(5, 2, 2);
+        public override string Name { get; } = "BountySystem";
+        public override string Author { get; } = "Heisenberg3666";
+        public override Version Version { get; } = new Version(1, 1, 0, 0);
+        public override Version RequiredExiledVersion { get; } = new Version(5, 2, 2);
 
         public override void OnEnabled()
         {
@@ -36,14 +36,17 @@ namespace BountySystem
             _commands = new List<IUsageCommand>()
             {
                 new CreateBounty(),
-                new CancelBounty()
+                new CancelBounty(),
+                new SeeBounties()
             };
 
             _commandChecker = Timing.CallPeriodically(60f, 5f, () =>
             {
                 if (Transactions.Transactions.Instance != null)
                 {
-                    TransactionsApi.RegisterSubcommands(_commands);
+                    TransactionsApi.RegisterSubcommand(_commands[0]);
+                    TransactionsApi.RegisterSubcommand(_commands[1]);
+                    TransactionsApi.RegisterSubcommand(_commands[2]);
                     _commandChecker.IsRunning = false;
                 }
             });
@@ -53,7 +56,9 @@ namespace BountySystem
 
         public override void OnDisabled()
         {
-            TransactionsApi.UnregisterSubcommands(_commands);
+            TransactionsApi.UnregisterSubcommand(_commands[0]);
+            TransactionsApi.UnregisterSubcommand(_commands[1]);
+            TransactionsApi.UnregisterSubcommand(_commands[2]);
 
             _commands = null;
 
